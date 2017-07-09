@@ -33,7 +33,7 @@ Configuring Global Zone information<br/>
 Please see sample configuration file for more information<br/>
 ```
 ZONES:
-  1: // zone if, no dupliate ID #'s allowed. Numbering scheme doesn't matter call them what you want using only unsigned integer
+  1: // zone id, no dupliate ID #'s allowed. Numbering scheme doesn't matter call them what you want using only unsigned integer
     enabled: true #global enabled/disabled.
     name: Front Yard, close to road #just a friendly name for this zone
     invert_logic: true #when true, gpio is low when zone is "ON". when false, gpio is high when zone is "ON"
