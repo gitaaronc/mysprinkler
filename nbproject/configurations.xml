@@ -30,6 +30,7 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>mysprinkler.yaml</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>include</Elem>
@@ -59,12 +60,12 @@
           <commandLine>-pthread</commandLine>
         </linkerTool>
         <requiredProjects>
-          <makeArtifact PL="/../BlackLib"
+          <makeArtifact PL="../BlackLib"
                         CT="2"
                         CN="Debug"
                         AC="true"
-                        BL="false"
-                        WD="/../BlackLib"
+                        BL="true"
+                        WD="../BlackLib"
                         BC="${MAKE}  -f Makefile CONF=Debug"
                         CC="${MAKE}  -f Makefile CONF=Debug clean"
                         OP="/usr/lib/libBlackLib.${CND_DLIB_EXT}">
@@ -82,6 +83,8 @@
       <item path="include/zone.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="mysprinkler.yaml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="program.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -119,6 +122,8 @@
       <item path="include/zone.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="mysprinkler.yaml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="program.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -1,0 +1,57 @@
+gpio_directory: /sys/class/gpio
+daemon: true
+logging_mode: VERBOSE
+PROGRAMS:
+  1:
+    hour: 22
+    minute: 00
+    interval: 1
+    mode: interval
+    zone_detail:
+      1:
+        duration: 25
+  2:
+    mode: even_only
+    hour: 04
+    minute: 30
+    zone_detail:
+      1:
+        duration: 25
+      2:
+        duration: 15
+      3:
+        duration: 15
+      4:
+        duration: 10
+  3:
+    mode: even_only
+    hour: 22
+    minute: 00
+    zone_detail:
+      4:
+        duration: 10
+      2:
+        duration: 10
+      3:
+        duration: 15
+ZONES:
+  1:
+    enabled: true
+    name: Front Yard, close to road
+    invert_logic: true
+    gpio: 69
+  2:
+    name: Front Yard, middle
+    enabled: true
+    gpio: 68
+    invert_logic: true
+  3:
+    name: Front Yard, side of house
+    enabled: true
+    gpio: 67
+    invert_logic: true
+  4:
+    gpio: 66
+    name: Front Yard, flower beds
+    invert_logic: true
+    enabled: true

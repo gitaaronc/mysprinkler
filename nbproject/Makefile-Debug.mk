@@ -87,6 +87,7 @@ ${OBJECTDIR}/zone.o: zone.cpp
 
 # Subprojects
 .build-subprojects:
+	cd ../BlackLib && ${MAKE}  -f Makefile CONF=Debug
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
@@ -95,6 +96,7 @@ ${OBJECTDIR}/zone.o: zone.cpp
 
 # Subprojects
 .clean-subprojects:
+	cd ../BlackLib && ${MAKE}  -f Makefile CONF=Debug clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl
