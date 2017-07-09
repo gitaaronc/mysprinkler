@@ -13,3 +13,29 @@ https://github.com/gitaaronc/BlackLib.git
 
 or the original BlackLib project located: https://github.com/yigityuce/BlackLib.git
 
+Please see sample configuration yaml.
+Supported program modes:
+
+```
+PROGRAMS:
+  1: // program id, no duplicates allowed, use only unsigned integer value
+    hour: 22 # the hour to start this program
+    minute: 00 # the minutes after the hour to start this program
+    interval: 1 # days between runs, works with mode set to interval
+    weekdays: monday # weekdays to run the program on, works with mode set to weekdays
+    mode: interval #even_only, odd_only, weekdays
+    zone_detail: #details of zones included as part of this program
+      1:
+        duration: 25 # number of minutes to run this zone
+
+```
+Configuring Global Zone information
+Please see sample configuration file for more information
+'''
+ZONES:
+  1: // zone if, no dupliate ID #'s allowed. Numbering scheme doesn't matter call them what you want using only unsigned integer
+    enabled: true #global enabled/disabled.
+    name: Front Yard, close to road #just a friendly name for this zone
+    invert_logic: true #when true, gpio is low when zone is "ON". when false, gpio is high when zone is "ON"
+    gpio: 69 #the gpio number
+'''
