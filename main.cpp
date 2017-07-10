@@ -78,7 +78,7 @@ void LoadPrograms(const YAML::Node yNodes) {
         
         shared_program program = std::make_shared<Program>();
         
-        program->LoadProgram(it->first.as<int>(-1), it->second);
+        program->LoadProgram(it->first.as<int>(0), it->second);
         
         if (!program->Disabled()) {
             QueueProgram(program);

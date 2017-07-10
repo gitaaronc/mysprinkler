@@ -90,8 +90,8 @@ void Program::LoadProgram(int id, YAML::Node node) {
     YAML::Node zNode = node["zone_detail"];
     for (auto it = zNode.begin(); it != zNode.end(); ++it) {
         zone_details_.push_back(zone_detail(
-                it->first.as<int>(-1),
-                it->second["duration"].as<int>(-1)));
+                it->first.as<int>(0),
+                it->second["duration"].as<int>(0)));
     }
     zone_details_.sort([](const zone_detail& lhs, const zone_detail& rhs){
         return lhs.zone_id < rhs.zone_id;
