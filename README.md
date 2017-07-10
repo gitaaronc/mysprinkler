@@ -13,6 +13,9 @@ https://github.com/gitaaronc/BlackLib.git
 
 or the original BlackLib project located: https://github.com/yigityuce/BlackLib.git
 
+You'll also need yaml-cpp<br/>
+<b>apt-get install libyaml-cpp-dev</b><br/>
+
 Configuring Global Zone information<br/>
 Please see sample configuration file for more information<br/>
 ```
