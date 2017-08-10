@@ -132,7 +132,6 @@ void Program::SetMode(std::string mode) {
 }
 
 void Program::SetDay(std::tm& tm) {
-    bool isOdd = false;
     bool isLeapYear = false;
 
     std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
@@ -145,23 +144,29 @@ void Program::SetDay(std::tm& tm) {
         mktime(&tm); // normalize tm struct
     }
 
-    isOdd = tm.tm_mday % 2 != 0; // is this an odd number day?
     isLeapYear = tm.tm_year % 4 == 0;
 
     switch (mode_) {
         case MODE::even_only:
         {
-            tm.tm_mday += isOdd ? 1 : 0;
+            while(tm.tm_mday % 2 != 0){
+                tm.tm_mday++;
+                mktime(&tm);
+            }
         }
             break;
         case MODE::odd_only:
         {
-            tm.tm_mday += isOdd ? 0 : 1;
+            while(tm.tm_mday % 2 == 0){
+                tm.tm_mday++;
+                mktime(&tm);
+            }
         }
             break;
         case MODE::interval:
         {
             tm.tm_mday += interval_ > 0 ? interval_ : 0;
+            mktime(&tm);
         }
             break;
         case MODE::weekdays:
@@ -186,12 +191,11 @@ void Program::SetDay(std::tm& tm) {
             break;
     }
 
-    mktime(&tm); // normalize tm struct
     // skip the last odd day of the month
     if (tm.tm_mday == 31 || (tm.tm_mday == 29 && tm.tm_mon == 2 && isLeapYear)) {
         tm.tm_mday++;
     }
-
+    mktime(&tm);
 }
 
 std::list<zone_detail> Program::ZoneDetail() {

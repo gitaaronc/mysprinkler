@@ -183,7 +183,7 @@ void MainLoop() {
 
             ss.str(std::string());
             ss << std::put_time(&tm, "%T %Z on %Y/%m/%d");
-            utils::Logger::Instance().Info("Program %i scheduled for %s",
+            utils::Logger::Instance().Info("Program %i scheduled to run at %s",
                     program->Id(), ss.str().c_str());
 
             std::unique_lock<std::mutex>lk(program_mutex_);
