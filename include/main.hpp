@@ -48,7 +48,6 @@
 
 using namespace ace;
 
-bool is_running_ = true;
 std::deque<shared_program> programs_; 
 std::list<shared_zone> zones_; 
 std::condition_variable cv_;
@@ -61,7 +60,7 @@ void LoadZones(const YAML::Node yNodes);
 void QueueProgram(const shared_program& program);
 void RunZones(const std::list<zone_detail>& list_detail);
 void StopAllZones();
-void MainLoop();
+bool MainLoop();
 
 #endif /* MAIN_HPP */
 

@@ -37,7 +37,13 @@
 #include <sys/time.h>
 
 namespace ace {
-namespace utils {
+namespace utils
+{
+
+Logger::Logger() {
+    ofs_.open("mysprinkler.txt");
+    //std::cout.rdbuf(ofs_.rdbuf());
+}
 
 std::string
 Logger::ByteArrayToStringStream(
@@ -119,6 +125,7 @@ Logger::hexdump(const std::vector<unsigned char> &s,
 
 void
 Logger::Output() {
+    ofs_ << oss_.rdbuf();
     std::cout << oss_.str();
     if (!oss_.str().empty()) {
         oss_.str(std::string());

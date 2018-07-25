@@ -5,6 +5,7 @@
       <itemPath>include/Logger.h</itemPath>
       <itemPath>include/main.hpp</itemPath>
       <itemPath>include/program.hpp</itemPath>
+      <itemPath>include/shutdown.hpp</itemPath>
       <itemPath>include/zone.hpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -17,6 +18,7 @@
       <itemPath>Logger.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>program.cpp</itemPath>
+      <itemPath>shutdown.cpp</itemPath>
       <itemPath>zone.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -80,6 +82,8 @@
       </item>
       <item path="include/program.hpp" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/shutdown.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/zone.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
@@ -87,6 +91,8 @@
       <item path="mysprinkler.yaml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="program.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="shutdown.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="zone.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -119,6 +125,8 @@
       </item>
       <item path="include/program.hpp" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/shutdown.hpp" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/zone.hpp" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
@@ -126,6 +134,8 @@
       <item path="mysprinkler.yaml" ex="false" tool="3" flavor2="0">
       </item>
       <item path="program.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="shutdown.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="zone.cpp" ex="false" tool="1" flavor2="0">
       </item>

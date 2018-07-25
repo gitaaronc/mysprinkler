@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Logger.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/program.o \
+	${OBJECTDIR}/shutdown.o \
 	${OBJECTDIR}/zone.o
 
 
@@ -79,6 +80,11 @@ ${OBJECTDIR}/program.o: program.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/program.o program.cpp
+
+${OBJECTDIR}/shutdown.o: shutdown.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/shutdown.o shutdown.cpp
 
 ${OBJECTDIR}/zone.o: zone.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -94,8 +94,7 @@ private:
     std::string Now();
     LOGGING logging_mode_;
 
-    Logger() {
-    }
+    Logger();
 
     ~Logger() {
     }

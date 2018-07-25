@@ -26,22 +26,25 @@
  */
 
 #include "include/main.hpp"
-
+#include "include/shutdown.hpp"
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <chrono>
+#include <csignal>
+#include <cstdio>
+#include <cerrno>
 
 #include <BlackLib/BlackLib.h>
-#include <signal.h>
+#include <unistd.h>
 
 void signal_callback(int signum) {
     utils::Logger::Instance().Debug("Caught signal %d", signum);
     
     StopAllZones();
     
-    is_running_ = false;
+    StartShutdown();
     
     cv_.notify_all();
 }
@@ -111,14 +114,14 @@ void StopAllZones() {
 
 void RunZones(const std::list<zone_detail>& list_detail) {
     for (const auto& detail : list_detail) {
-        if (!is_running_) break;
+        if (ShutdownRequested()) break;
         
         auto zone = std::find_if(zones_.begin(), zones_.end(),
                 [detail](const shared_zone & z) {
                     return detail.zone_id == z->Id();
                 });
                 
-        if (zone != zones_.end() && is_running_ && (*zone)->Enabled()) {
+        if (zone != zones_.end() && !ShutdownRequested() && (*zone)->Enabled()) {
             utils::Logger::Instance().Info("Watering %s, zone %d for %d minutes",
                     (*zone)->Name().c_str(), detail.zone_id, detail.duration);
             
@@ -146,34 +149,36 @@ void RunZones(const std::list<zone_detail>& list_detail) {
  */
 void QueueProgram(const shared_program& program) {
     if (!programs_.empty()) {
+        // check for duplicate
         if (std::find_if(programs_.begin(), programs_.end(), [program](
                 const shared_program & right) {
                 return program->Id() == right->Id();
             }) != programs_.end()) {
-        // reject duplicate program
         utils::Logger::Instance().Info("Rejecting duplicate program ID: %d",
                 program->Id());
-    } else {// insert program in order scheduled by date/time
-            // get a pointer to the later scheduled program
+    } else {
+            // insert program in order scheduled by date/time
+            // if date and time are duplicates, this scheduled after existing
+            // TODO: warn of conflicting schedule? 
             auto lower = std::lower_bound(programs_.begin(), programs_.end(),
                     program, [](const shared_program& left, const shared_program & right) {
                         return left->StartTime() < right->StartTime();
                     });
-            programs_.insert(lower, program); // insert the program
+            programs_.insert(lower, program);
         }
-    } else {// deque is empty add program
-        // add program
+    } else {
+        // deque is empty add program
         programs_.push_back(program);
     }
 }
 
-void MainLoop() {
+bool MainLoop() {
     std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
     std::time_t tt = std::chrono::system_clock::to_time_t(tp);
     std::tm tm = *std::localtime(&tt);
     std::stringstream ss;
 
-    while (is_running_) {
+    while (!ShutdownRequested()) {
         if (!programs_.empty()) {
             // get a program from the front of deque
             shared_program program = programs_.front();
@@ -201,16 +206,13 @@ void MainLoop() {
             QueueProgram(program); // add the updated program to the deque
         } else {
             utils::Logger::Instance().Info("Nothing to do. Exiting...");
-            is_running_ = false;
+            StartShutdown();
         }
     }
+    return true;
 }
-
-int main(int argc, char** argv) {
-    signal(SIGTERM, signal_callback);
-    signal(SIGINT, signal_callback);
-    signal(SIGPIPE, signal_pipe_callback);
-
+bool AppInit(int argc, char* argv[]){
+    bool fRet = false;
     if (argc < 2) {
         std::cout << "No arguments found on the command line.\n";
         std::cout << "Expecting configuration file on the command line.\n";
@@ -251,18 +253,32 @@ int main(int argc, char** argv) {
                 ace::utils::Logger::VERBOSE);
     }
 
-    is_daemon_ = yConfig["daemon"].as<bool>(false);
+    if (yConfig["daemon"].as<bool>(false)){
+        if (daemon(1,0)){
+            fprintf(stderr, "Error: daemon() failed: %s\n", strerror(errno));
+            return errno;
+        }
+    }
+    
     LoadZones(yConfig["ZONES"]);
 
     LoadPrograms(yConfig["PROGRAMS"]);
 
-    MainLoop();
+    fRet = MainLoop();
 
     std::ofstream ofs(config_file_);
     ofs << yConfig;
     ofs.close();
-
+    
     ace::utils::Logger::Instance().Info("mysprinkler exited cleanly.");
-    return 0;
+    return fRet;
+}
+
+int main(int argc, char** argv) {
+    std::signal(SIGTERM, signal_callback);
+    std::signal(SIGINT, signal_callback);
+    std::signal(SIGPIPE, signal_pipe_callback);
+
+    return (AppInit(argc, argv)) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
